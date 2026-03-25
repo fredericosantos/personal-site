@@ -1,0 +1,71 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} · Frederico Santos`} description={post.data.description}>
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="/" class="text-accent text-sm font-bold tracking-tight">
+        frederico<span class="text-text-dim">@</span>fsx.app
+      </a>
+      <a href="/blog" class="text-text-muted hover:text-accent text-xs transition-colors">
+        ← blog
+      </a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+    <article>
+      <header class="mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-accent">◆</span>
+          <span class="text-text-dim text-xs">$ cat blog/{post.id}.md</span>
+        </div>
+        <h1 class="text-text text-2xl sm:text-3xl font-sans font-bold">
+          {post.data.title}
+        </h1>
+        <div class="flex items-center gap-3 mt-3">
+          <time
+            class="text-text-dim text-xs tabular-nums"
+            datetime={post.data.date.toISOString()}
+          >
+            {post.data.date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+          {post.data.tags && (
+            <div class="flex gap-2">
+              {post.data.tags.map((tag) => (
+                <span class="text-xs text-text-dim">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+
+    <div class="mt-16 pt-8 border-t border-border">
+      <a href="/blog" class="text-text-muted hover:text-accent text-sm transition-colors">
+        ← Back to all posts
+      </a>
+    </div>
+  </main>
+</Layout>

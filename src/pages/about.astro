@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { getCollection } from "astro:content";
+---
+
+<Layout title="About · Frederico Santos">
+  <main class="max-w-4xl mx-auto px-6 pt-20 pb-16">
+    <SectionHeader title="About" />
+
+    <div class="space-y-4 mt-8">
+      <p class="text-text-muted leading-relaxed">
+        I'm a second-year PhD student at the University of Trieste, working on evolutionary computation and genetic programming.
+      </p>
+      <p class="text-text-muted leading-relaxed">
+        My research focuses on Geometric Semantic Genetic Programming (GSGP) and its applications to symbolic regression and machine learning.
+      </p>
+      <p class="text-text-muted leading-relaxed">
+        Previously, I worked as a software engineer building web applications and automation tools.
+      </p>
+    </div>
+  </main>
+</Layout>

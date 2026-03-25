@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  authors: string;
+  venue: string;
+  year: number;
+  type: string;
+  url: string;
+}
+const { title, authors, venue, year, type, url } = Astro.props;
+---
+<a
+  href={url}
+  class="group block border border-border rounded-lg p-4 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all"
+>
+  <div class="text-text-dim text-xs mb-1">
+    @{type}&#123;santos{year},
+  </div>
+  <p class="text-text font-sans font-medium group-hover:text-accent transition-colors pl-4">
+    {title}
+  </p>
+  <div class="pl-4 mt-1 space-y-0.5 text-sm">
+    <p class="text-text-muted">{authors}</p>
+    <p class="text-accent-secondary text-xs">
+      {venue} · {year}
+    </p>
+  </div>
+  <div class="text-text-dim text-xs mt-1">&#125;</div>
+</a>

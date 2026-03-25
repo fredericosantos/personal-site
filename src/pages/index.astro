@@ -1,0 +1,265 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import PublicationCard from "../components/PublicationCard.astro";
+import SkillTree from "../components/SkillTree.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import SectionConnector from "../components/SectionConnector.astro";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const projects = (await getCollection("projects"))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const publications = (await getCollection("publications"))
+  .sort((a, b) => b.data.year - a.data.year);
+
+const skills = await getCollection("skills");
+---
+
+<Layout>
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6">
+      <!-- Row 1: name + section nav + CTA -->
+      <div class="h-12 flex items-center justify-between">
+        <a href="/" class="text-accent text-sm font-bold tracking-tight">
+          frederico<span class="text-text-dim">@</span>fsx.app
+        </a>
+        <div class="flex items-center gap-1 text-xs">
+          {["about", "projects", "publications", "blog", "stack"].map((s) => (
+            <a
+              href={`#${s}`}
+              class="text-text-muted hover:text-accent transition-colors px-2 py-1 rounded hover:bg-surface"
+            >
+              {s}
+            </a>
+          ))}
+          <a
+            href="/cv"
+            class="text-text-muted hover:text-accent transition-colors px-2 py-1 rounded hover:bg-surface"
+          >
+            cv
+          </a>
+          <a
+            href="mailto:frederico.santos.webpage@fsx.app"
+            class="hidden sm:inline-flex text-xs ml-2 px-3 py-1 rounded border border-accent text-accent hover:bg-accent hover:text-bg transition-all"
+          >
+            Get in Touch
+          </a>
+        </div>
+      </div>
+      <!-- Row 2: social links -->
+      <div class="pb-2.5">
+        <SocialLinks />
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-32 pb-16">
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- HERO                                        -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="mb-16 animate-fade-up">
+      <div class="border border-border rounded-lg overflow-hidden bg-surface/60 backdrop-blur-sm">
+        <div class="p-6 sm:p-8 space-y-4 text-sm sm:text-base">
+          <!-- whoami -->
+          <div>
+            <p class="text-text-dim">
+              <span class="text-accent">$</span> whoami
+            </p>
+            <p class="name-glitch-container text-text font-mono mt-1 flex flex-wrap items-center" style="font-size: 56px; font-weight: 250; line-height: 1.1;">
+              {"FREDERICO".split("").map((c) => <span class="glitch-letter">{c}</span>)}
+              <span class="glitch-letter">&nbsp;</span>
+              {"SANTOS".split("").map((c) => <span class="glitch-letter">{c}</span>)}
+              <span class="cursor-smooth"></span>
+            </p>
+          </div>
+
+          <!-- role -->
+          <div>
+            <p class="text-text-muted mt-1">
+              PhD Student · <span class="text-text">University of Trieste</span>
+            </p>
+            <p class="text-text-muted">
+              Evolutionary Computation · Machine Learning · Genetic Programming
+            </p>
+          </div>
+
+          <!-- PhD Progress -->
+          <div class="mt-2 flex items-center gap-2 font-mono text-xs">
+            <span class="text-accent-secondary">◆ phd-progress</span>
+            <span id="progress-filled" class="text-accent"></span><span id="progress-empty" class="text-text-dim"></span>
+            <span id="progress-pct" class="text-accent font-bold"></span>
+            <span id="progress-label" class="text-text-dim"></span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <SectionConnector />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ABOUT                                       -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section id="about" class="mb-16 scroll-mt-16 animate-fade-up">
+      <SectionHeader title="About" />
+      <div class="pl-6 border-l border-border space-y-4 text-text-muted leading-relaxed">
+        <p>
+          <span class="text-border">├──</span> I'm a second-year PhD student at the
+          <a href="#" class="text-accent hover:text-text transition-colors underline underline-offset-2">University of Trieste</a>,
+          working on evolutionary computation and genetic programming.
+        </p>
+        <p>
+          <span class="text-border">├──</span> My research focuses on Geometric Semantic Genetic Programming (GSGP)
+          and its applications to symbolic regression and machine learning. I'm
+          particularly interested in the intersection of evolutionary algorithms
+          and modern deep learning techniques.
+        </p>
+        <p>
+          <span class="text-border">└──</span> Previously, I worked as a software engineer building web applications
+          and automation tools. I bring that practical engineering mindset to my
+          research work.
+        </p>
+      </div>
+    </section>
+
+    <SectionConnector />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PROJECTS                                    -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section id="projects" class="mb-16 scroll-mt-16">
+      <SectionHeader title="Projects" />
+      <div class="grid gap-3 stagger">
+        {projects.map((project) => (
+          <ProjectCard {...project.data} />
+        ))}
+      </div>
+    </section>
+
+    <SectionConnector />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PUBLICATIONS                                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section id="publications" class="mb-16 scroll-mt-16">
+      <SectionHeader title="Publications" />
+      <div class="space-y-4 stagger">
+        {publications.map((pub) => (
+          <PublicationCard {...pub.data} />
+        ))}
+      </div>
+    </section>
+
+    <SectionConnector />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- BLOG                                        -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section id="blog" class="mb-16 scroll-mt-16">
+      <div class="flex items-center justify-between mb-6">
+        <SectionHeader title="Blog" />
+        <a
+          href="/blog"
+          class="text-xs text-text-muted hover:text-accent transition-colors"
+        >
+          view all →
+        </a>
+      </div>
+      <div class="space-y-3 stagger">
+        {posts.length === 0 && (
+          <p class="text-text-dim text-sm pl-6 border-l border-border py-2">
+            <span class="text-border">└──</span> No posts yet. Check back soon.
+          </p>
+        )}
+        {posts.map((post, i) => (
+          <a
+            href={`/blog/${post.id}`}
+            class="group block border border-border rounded-lg p-4 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-text font-sans font-medium group-hover:text-accent transition-colors">
+                  <span class="text-border text-xs mr-2">{i === posts.length - 1 ? "└──" : "├──"}</span>
+                  {post.data.title}
+                </p>
+                <p class="text-text-muted text-sm mt-1 ml-8">{post.data.description}</p>
+              </div>
+              <time
+                class="text-text-dim text-xs shrink-0 tabular-nums"
+                datetime={post.data.date.toISOString()}
+              >
+                {post.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <SectionConnector />
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SKILLS                                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section id="skills" class="mb-16 scroll-mt-16">
+      <SectionHeader title="Stack" />
+      <SkillTree skills={skills} />
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- FOOTER                                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <footer class="text-center py-8 border-t border-border">
+      <p class="text-text-dim text-xs">
+        <span class="text-accent">└──</span>
+        Built with Astro · Hosted on GitHub Pages ·
+        <span class="text-text-muted">© {new Date().getFullYear()} Frederico Santos</span>
+      </p>
+    </footer>
+  </main>
+
+  <!-- PhD Progress Bar Script -->
+  <script>
+    function updateProgress() {
+      const start = new Date("2024-11-01").getTime();
+      const end = new Date("2027-11-01").getTime();
+      const now = Date.now();
+      const total = end - start;
+      const elapsed = now - start;
+      const pct = Math.min(Math.max((elapsed / total) * 100, 0), 100);
+
+      const segments = 10;
+      const filled = Math.round((pct / 100) * segments);
+      const empty = segments - filled;
+
+      const years = elapsed / (365.25 * 24 * 60 * 60 * 1000);
+      const yearLabel =
+        years < 1 ? "Year 1" : years < 2 ? "Year 2" : "Year 3";
+
+      const filledEl = document.getElementById("progress-filled");
+      const emptyEl = document.getElementById("progress-empty");
+      const pctEl = document.getElementById("progress-pct");
+      const labelEl = document.getElementById("progress-label");
+
+      if (filledEl) filledEl.textContent = "█".repeat(filled);
+      if (emptyEl) emptyEl.textContent = "░".repeat(empty);
+      if (pctEl) pctEl.textContent = `${pct.toFixed(1)}%`;
+      if (labelEl)
+        labelEl.textContent = `${yearLabel} of 3 · Nov 2024 → Nov 2027`;
+    }
+
+    updateProgress();
+    setInterval(updateProgress, 60000);
+  </script>
+</Layout>

@@ -1,0 +1,12 @@
+---
+interface Props {
+  title: string;
+  id?: string;
+}
+const { title, id } = Astro.props;
+---
+<div class="mb-6" id={id}>
+  <p class="font-mono text-[14px] leading-none tracking-[-0.02em] uppercase text-[#ccc9c7] flex items-center gap-2.5">
+    <span class="glitch-square"></span>{title}/
+  </p>
+</div>

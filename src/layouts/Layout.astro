@@ -1,0 +1,534 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Frederico JB Santos · fsx.app",
+  description = "PhD Student at University of Trieste. Evolutionary Computation, Machine Learning, Genetic Programming.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#2a1010" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <title>{title}</title>
+
+    <!-- Geist Fonts -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/geist@1.4.1/dist/fonts/geist-sans/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/geist@1.4.1/dist/fonts/geist-mono/style.css"
+    />
+  </head>
+  <body
+    class="bg-bg text-text font-mono antialiased min-h-screen relative overflow-x-hidden"
+  >
+    <!-- Interactive dot grid background -->
+    <canvas id="dot-grid" class="fixed inset-0 z-0"></canvas>
+
+    <!-- Content -->
+    <div class="relative z-10">
+      <slot />
+    </div>
+
+    <!-- Cyberpunk glitch engine — each square gets independent random glitches -->
+    <script>
+      const GLITCH_PATTERNS = [
+        // Quick flicker
+        async (el: HTMLElement) => {
+          el.style.opacity = "0";
+          await sleep(50 + rand(50));
+          el.style.opacity = "1";
+        },
+        // Double flash
+        async (el: HTMLElement) => {
+          el.style.opacity = "0";
+          await sleep(40);
+          el.style.opacity = "1";
+          await sleep(60);
+          el.style.opacity = "0";
+          await sleep(40);
+          el.style.opacity = "1";
+        },
+        // Triple stutter
+        async (el: HTMLElement) => {
+          for (let i = 0; i < 3; i++) {
+            el.style.opacity = String(0.2 + Math.random() * 0.3);
+            await sleep(30 + rand(30));
+            el.style.opacity = "1";
+            await sleep(20 + rand(20));
+          }
+        },
+        // Shift right
+        async (el: HTMLElement) => {
+          el.style.transform = `translateX(${2 + rand(3)}px)`;
+          await sleep(60 + rand(80));
+          el.style.transform = "";
+        },
+        // Shift diagonal
+        async (el: HTMLElement) => {
+          el.style.transform = `translate(${-1 + rand(3)}px, ${-1 + rand(3)}px)`;
+          await sleep(50 + rand(60));
+          el.style.transform = "";
+        },
+        // Stretch horizontal
+        async (el: HTMLElement) => {
+          el.style.transform = "scaleX(2.5)";
+          await sleep(40 + rand(60));
+          el.style.transform = "scaleX(1)";
+          await sleep(30);
+          el.style.transform = "";
+        },
+        // Stretch vertical
+        async (el: HTMLElement) => {
+          el.style.transform = "scaleY(2)";
+          await sleep(50 + rand(50));
+          el.style.transform = "";
+        },
+        // Ghost — slow fade
+        async (el: HTMLElement) => {
+          el.style.opacity = "0.2";
+          await sleep(150 + rand(200));
+          el.style.opacity = "0.6";
+          await sleep(80);
+          el.style.opacity = "1";
+        },
+        // Color flash — goes bright white
+        async (el: HTMLElement) => {
+          setColor(el, "#fff");
+          await sleep(40 + rand(40));
+          setColor(el, "");
+        },
+        // Color shift — dim then bright via CSS vars
+        async (el: HTMLElement) => {
+          setColor(el, "var(--color-accent-dim)");
+          await sleep(80 + rand(120));
+          el.style.filter = "brightness(1.4)";
+          await sleep(40);
+          el.style.filter = "";
+          setColor(el, "");
+        },
+        // Jitter — rapid random position shifts
+        async (el: HTMLElement) => {
+          const steps = 3 + rand(4);
+          for (let i = 0; i < steps; i++) {
+            el.style.transform = `translate(${-2 + rand(5)}px, ${-2 + rand(5)}px)`;
+            el.style.opacity = String(0.4 + Math.random() * 0.6);
+            await sleep(25 + rand(25));
+          }
+          el.style.transform = "";
+          el.style.opacity = "1";
+        },
+        // Disappear
+        async (el: HTMLElement) => {
+          el.style.opacity = "0";
+          await sleep(200 + rand(300));
+          el.style.opacity = "1";
+        },
+        // Scan line — stretch then snap
+        async (el: HTMLElement) => {
+          el.style.transform = "scaleX(4)";
+          el.style.opacity = "0.5";
+          await sleep(35);
+          el.style.transform = "scaleX(0.5)";
+          el.style.opacity = "0.8";
+          await sleep(35);
+          el.style.transform = "";
+          el.style.opacity = "1";
+        },
+      ];
+
+      function rand(n: number) {
+        return Math.floor(Math.random() * n);
+      }
+      function sleep(ms: number) {
+        return new Promise((r) => setTimeout(r, ms));
+      }
+      function isIcon(el: HTMLElement) {
+        return el.classList.contains("glitch-icon");
+      }
+      function setColor(el: HTMLElement, val: string) {
+        if (isIcon(el)) {
+          el.style.color = val;
+        } else {
+          el.style.backgroundColor = val;
+        }
+      }
+
+      function runGlitchLoop(el: HTMLElement) {
+        const delay = 6000 + rand(18000);
+        setTimeout(async () => {
+          const pattern =
+            GLITCH_PATTERNS[rand(GLITCH_PATTERNS.length)];
+          await pattern(el);
+          // Reset to clean state
+          el.style.opacity = "1";
+          el.style.transform = "";
+          el.style.filter = "";
+          if (isIcon(el)) {
+            el.style.color = "";
+          } else {
+            el.style.backgroundColor = "";
+          }
+          runGlitchLoop(el);
+        }, delay);
+      }
+
+      document.querySelectorAll<HTMLElement>(".glitch-square, .glitch-icon").forEach((el) => {
+        setTimeout(() => runGlitchLoop(el), rand(4000));
+      });
+
+      // Letters get the same glitch loop but with longer delays (subtler)
+      const glitchColors = [
+        "var(--color-accent)",
+        "var(--color-accent-secondary)",
+      ];
+
+      // Name variants — weighted by rarity
+      const NAME_VARIANTS = [
+        { text: "FREDERICO SANTOS", weight: 20 },
+        { text: "frederico santos", weight: 18 },
+        { text: "fred", weight: 14 },
+        { text: "FredericoSantos", weight: 14 },
+        { text: "Frederico Santos", weight: 18 },
+        { text: "frederico_santos", weight: 10 },
+        { text: "frederico josé jácome de brito santos", weight: 6 },
+      ];
+
+      let lastVariant = NAME_VARIANTS[0].text;
+      function pickNameVariant(): string {
+        let pick: string;
+        do {
+          const roll = Math.random() * 100;
+          let cumulative = 0;
+          pick = NAME_VARIANTS[0].text;
+          for (const v of NAME_VARIANTS) {
+            cumulative += v.weight;
+            if (roll < cumulative) { pick = v.text; break; }
+          }
+        } while (pick === lastVariant && NAME_VARIANTS.length > 1);
+        lastVariant = pick;
+        return pick;
+      }
+
+      const nameContainer = document.querySelector<HTMLElement>(".name-glitch-container");
+      const cursorEl = nameContainer?.querySelector<HTMLElement>(".cursor-smooth");
+
+      const DELETE_SPEED = 30;  // ms per character deletion
+      const TYPE_SPEED = 45;    // ms per character typing
+
+      async function swapName() {
+        if (!nameContainer) return;
+        const variant = pickNameVariant();
+        const currentSpans = Array.from(nameContainer.querySelectorAll<HTMLElement>(".glitch-letter"));
+
+        // Delete everything — backspace from right to left
+        for (let i = currentSpans.length - 1; i >= 0; i--) {
+          currentSpans[i].remove();
+          await sleep(DELETE_SPEED + rand(20));
+        }
+
+        // Brief pause at empty
+        await sleep(150 + rand(100));
+
+        // Type the new name left to right
+        const newSpans: HTMLElement[] = [];
+        for (const c of variant.split("")) {
+          const span = document.createElement("span");
+          span.className = "glitch-letter";
+          span.textContent = c === " " ? "\u00A0" : c;
+          if (cursorEl) {
+            nameContainer.insertBefore(span, cursorEl);
+          } else {
+            nameContainer.appendChild(span);
+          }
+          newSpans.push(span);
+          await sleep(TYPE_SPEED + rand(30));
+        }
+
+        // Re-register letter glitch loops
+        newSpans.forEach((el) => {
+          setTimeout(() => startLetterLoop(el), rand(4000));
+        });
+      }
+
+      function startLetterLoop(el: HTMLElement) {
+        const delay = 12000 + rand(36000);
+        setTimeout(async () => {
+          if (!document.contains(el)) return;
+          const color = glitchColors[rand(glitchColors.length)];
+          el.style.color = color;
+          const pattern = GLITCH_PATTERNS[rand(GLITCH_PATTERNS.length)];
+          await pattern(el);
+          await sleep(80 + rand(120));
+          el.style.opacity = "1";
+          el.style.transform = "";
+          el.style.filter = "";
+          el.style.color = "";
+          startLetterLoop(el);
+        }, delay);
+      }
+
+      // Initial letter glitch registration
+      document.querySelectorAll<HTMLElement>(".glitch-letter").forEach((el) => {
+        setTimeout(() => startLetterLoop(el), rand(8000));
+      });
+
+      // Name swap loop — rare, dramatic glitch
+      function nameSwapLoop() {
+        const delay = 30000 + rand(60000); // 30-90 seconds
+        setTimeout(async () => {
+          await swapName();
+          nameSwapLoop();
+        }, delay);
+      }
+      nameSwapLoop();
+    </script>
+
+    <!-- Hover split animation — JS-driven for unique random transforms each time -->
+    <script>
+      function randRange(min: number, max: number) {
+        return min + Math.random() * (max - min);
+      }
+      function randSign() {
+        return Math.random() < 0.5 ? -1 : 1;
+      }
+
+      async function animateGhost(ghost: HTMLElement, useColor: boolean) {
+        const offsetX = randRange(3, 7) * randSign();
+        const offsetY = randRange(2, 5) * randSign();
+        const scaleX = randRange(1, 3.5);
+        const scaleY = randRange(0.5, 2.5);
+        const midX = offsetX * randRange(0.3, 0.7);
+        const midY = offsetY * randRange(0.3, 0.7);
+
+        const steps = [
+          { transform: "translate(0,0) scale(1,1)", opacity: "0" },
+          { transform: `translate(${offsetX}px,${offsetY}px) scale(${scaleX},1)`, opacity: "0.85" },
+          { transform: `translate(${midX}px,${midY}px) scale(1,${scaleY})`, opacity: "0.5" },
+          { transform: `translate(${offsetX * 1.2}px,${offsetY * 0.8}px) scale(${scaleX * 0.6},${scaleY * 0.7})`, opacity: "0.35" },
+          { transform: `translate(${offsetX * 0.8}px,${offsetY}px) scale(1,1)`, opacity: "0.12" },
+          { transform: `translate(${offsetX * 0.8}px,${offsetY}px) scale(1,1)`, opacity: "0" },
+        ];
+
+        for (const step of steps) {
+          ghost.style.transform = step.transform;
+          ghost.style.opacity = step.opacity;
+          await new Promise((r) => setTimeout(r, 55 + Math.random() * 40));
+        }
+
+        ghost.style.transform = "";
+        ghost.style.opacity = "0";
+      }
+
+      function createGhost(target: HTMLElement, useColor: boolean): HTMLElement {
+        const ghost = document.createElement("span");
+        if (useColor) {
+          // Clone the SVG for the ghost
+          const svg = target.querySelector("svg");
+          if (svg) ghost.appendChild(svg.cloneNode(true) as Node);
+          ghost.style.cssText =
+            "position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:screen;color:var(--color-accent);display:inline-block;width:100%;height:100%;";
+        } else {
+          ghost.style.cssText =
+            "position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:screen;background-color:var(--color-accent);";
+        }
+        return ghost;
+      }
+
+      // Attach hover listeners to glitch-squares (in sections)
+      document.querySelectorAll("section").forEach((section) => {
+        const square = section.querySelector<HTMLElement>(".glitch-square");
+        if (!square) return;
+
+        const ghostEl = createGhost(square, false);
+        square.appendChild(ghostEl);
+
+        let isHovering = false;
+        section.addEventListener("mouseenter", () => {
+          if (isHovering) return;
+          isHovering = true;
+          animateGhost(ghostEl, false);
+        });
+
+        section.addEventListener("mouseleave", () => {
+          isHovering = false;
+          ghostEl.style.transform = "";
+          ghostEl.style.opacity = "0";
+        });
+      });
+
+      // Attach hover listeners to glitch-icons (in links)
+      document.querySelectorAll<HTMLElement>(".glitch-icon").forEach((icon) => {
+        const ghostEl = createGhost(icon, true);
+        icon.appendChild(ghostEl);
+
+        const hoverTarget = icon.closest("a") || icon;
+        let isHovering = false;
+
+        hoverTarget.addEventListener("mouseenter", () => {
+          if (isHovering) return;
+          isHovering = true;
+          animateGhost(ghostEl, true);
+        });
+
+        hoverTarget.addEventListener("mouseleave", () => {
+          isHovering = false;
+          ghostEl.style.transform = "";
+          ghostEl.style.opacity = "0";
+        });
+      });
+    </script>
+
+    <script>
+      // ── Dot Grid Config ─────────────────────────────────
+      // Tweak these values to fine-tune the background:
+      const GRID_SPACING = 20;        // px between dots
+      const DOT_SIZE = 2;           // square side length in px
+      const INTERACTION_RADIUS = 200; // how far the mouse reaches (px)
+      const PUSH_FORCE = 10;          // how far dots get pushed (px)
+      const BASE_ALPHA = 0.1;        // resting dot opacity
+      const HOVER_ALPHA = 0.33;       // max opacity near cursor
+      // Reads --color-accent from CSS so there's one source of truth
+      const ACCENT_COLOR = (() => {
+        const hex = getComputedStyle(document.documentElement)
+          .getPropertyValue("--color-accent").trim();
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return [r, g, b];
+      })();
+      // ────────────────────────────────────────────────────
+
+      class DotGrid {
+        canvas: HTMLCanvasElement;
+        ctx: CanvasRenderingContext2D;
+        dots: Array<{
+          originX: number;
+          originY: number;
+          x: number;
+          y: number;
+        }>;
+        mouse: { x: number; y: number };
+        raf: number;
+
+        constructor(canvas: HTMLCanvasElement) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext("2d")!;
+          this.dots = [];
+          this.mouse = { x: -1000, y: -1000 };
+          this.raf = 0;
+
+          this.resize();
+          this.bindEvents();
+          this.animate();
+        }
+
+        resize() {
+          this.canvas.width = window.innerWidth;
+          this.canvas.height = window.innerHeight;
+          this.createDots();
+        }
+
+        createDots() {
+          this.dots = [];
+          const cols = Math.ceil(this.canvas.width / GRID_SPACING) + 1;
+          const rows = Math.ceil(this.canvas.height / GRID_SPACING) + 1;
+          for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+              const x = i * GRID_SPACING;
+              const y = j * GRID_SPACING;
+              this.dots.push({ originX: x, originY: y, x, y });
+            }
+          }
+        }
+
+        bindEvents() {
+          let resizeTimer: ReturnType<typeof setTimeout>;
+          window.addEventListener("resize", () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => this.resize(), 200);
+          });
+
+          window.addEventListener("mousemove", (e) => {
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
+          });
+
+          window.addEventListener("mouseleave", () => {
+            this.mouse.x = -1000;
+            this.mouse.y = -1000;
+          });
+        }
+
+        animate() {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+          for (const dot of this.dots) {
+            const dx = this.mouse.x - dot.originX;
+            const dy = this.mouse.y - dot.originY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            const now = performance.now();
+
+            if (dist < INTERACTION_RADIUS) {
+              const force =
+                (INTERACTION_RADIUS - dist) / INTERACTION_RADIUS;
+              const angle = Math.atan2(dy, dx);
+              dot.x = dot.originX - Math.cos(angle) * force * PUSH_FORCE;
+              dot.y = dot.originY - Math.sin(angle) * force * PUSH_FORCE;
+            } else {
+              // Slow drift back — low lerp for lazy return
+              dot.x += (dot.originX - dot.x) * 0.02;
+              dot.y += (dot.originY - dot.y) * 0.02;
+            }
+
+            const halfSize = DOT_SIZE / 2;
+
+            if (dist < INTERACTION_RADIUS) {
+              // t=0 at edge, t=1 at cursor center
+              const t = 1 - dist / INTERACTION_RADIUS;
+              // Interpolate: BASE_ALPHA at edge → HOVER_ALPHA at center
+              // So HOVER_ALPHA=0 means fully transparent at cursor
+              const alpha = BASE_ALPHA + t * (HOVER_ALPHA - BASE_ALPHA);
+              // Color: blend white→accent as we approach cursor
+              const r = Math.round(ACCENT_COLOR[0] * t + 255 * (1 - t));
+              const g = Math.round(ACCENT_COLOR[1] * t + 255 * (1 - t));
+              const b = Math.round(ACCENT_COLOR[2] * t + 255 * (1 - t));
+              this.ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            } else {
+              this.ctx.fillStyle = `rgba(255, 255, 255, ${BASE_ALPHA})`;
+            }
+
+            this.ctx.fillRect(
+              dot.x - halfSize,
+              dot.y - halfSize,
+              DOT_SIZE,
+              DOT_SIZE
+            );
+          }
+
+          this.raf = requestAnimationFrame(() => this.animate());
+        }
+      }
+
+      const canvas = document.getElementById("dot-grid") as HTMLCanvasElement;
+      if (canvas) new DotGrid(canvas);
+    </script>
+  </body>
+</html>

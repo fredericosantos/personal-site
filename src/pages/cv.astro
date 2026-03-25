@@ -1,0 +1,111 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { getCollection } from "astro:content";
+
+const skills = await getCollection("skills");
+
+const grouped = skills.reduce((acc, s) => {
+  const cat = s.data.category;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(s);
+  return acc;
+}, {} as Record<string, typeof skills>);
+---
+
+<Layout title="CV · Frederico Santos">
+  <main class="max-w-4xl mx-auto px-6 pt-20 pb-16">
+    <SectionHeader title="CV" />
+
+    <div class="pl-6 border-l border-border space-y-6 mt-8">
+
+      <!-- Education -->
+      <section>
+        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Education</p>
+        <div class="font-mono text-sm space-y-4">
+          <div>
+            <div class="flex gap-3">
+              <span class="text-border">├──</span>
+              <div>
+                <span class="text-accent-secondary">2024─now</span>
+                <span class="text-text ml-2 font-sans font-medium">PhD in Computer Science</span>
+              </div>
+            </div>
+            <div class="ml-8 text-text-muted text-sm font-sans">
+              <p>University of Trieste, Italy</p>
+              <p class="text-text-dim text-xs mt-0.5">Evolutionary Computation · Genetic Programming · ML</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex gap-3">
+              <span class="text-border">└──</span>
+              <div>
+                <span class="text-accent-secondary">2020─2023</span>
+                <span class="text-text ml-2 font-sans font-medium">MSc in Informatics Engineering</span>
+              </div>
+            </div>
+            <div class="ml-8 text-text-muted text-sm font-sans">
+              <p>University of Coimbra, Portugal</p>
+              <p class="text-text-dim text-xs mt-0.5">Machine Learning · Software Engineering</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section>
+        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Experience</p>
+        <div class="font-mono text-sm space-y-4">
+          <div>
+            <div class="flex gap-3">
+              <span class="text-border">├──</span>
+              <div>
+                <span class="text-accent-secondary">2024─now</span>
+                <span class="text-text ml-2 font-sans font-medium">PhD Researcher</span>
+              </div>
+            </div>
+            <div class="ml-8 text-text-muted text-sm font-sans">
+              <p>University of Trieste</p>
+              <p class="text-text-dim text-xs mt-0.5">Research on GSGP, symbolic regression, and evolutionary ML</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex gap-3">
+              <span class="text-border">└──</span>
+              <div>
+                <span class="text-accent-secondary">2022─2024</span>
+                <span class="text-text ml-2 font-sans font-medium">Software Engineer</span>
+              </div>
+            </div>
+            <div class="ml-8 text-text-muted text-sm font-sans">
+              <p>Various projects</p>
+              <p class="text-text-dim text-xs mt-0.5">Web applications, automation tools, data pipelines</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section>
+        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Skills</p>
+        <div class="space-y-4">
+          {Object.entries(grouped).map(([category, categorySkills]) => (
+            <div>
+              <p class="text-text-dim text-xs font-mono uppercase mb-2">{category}/</p>
+              <div class="flex flex-wrap gap-2 pl-4">
+                {categorySkills.map((skill) => (
+                  <span class="text-xs px-2 py-1 rounded border border-border text-text-muted bg-surface/40">
+                    {skill.data.title}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </main>
+</Layout>

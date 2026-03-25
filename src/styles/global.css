@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
+
+  --color-bg: #0a0a0a;
+  --color-surface: #111111;
+  --color-surface-2: #1a1a1a;
+  --color-border: #262626;
+  --color-text: #ededed;
+  --color-text-muted: #9a9a9a;
+  --color-text-dim: #636363;
+  --color-accent: #bd4242;
+  --color-accent-dim: #7a2b2b;
+  --color-accent-secondary: #22d3ee;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+*::selection {
+  background: rgba(189, 66, 66, 0.3);
+  color: var(--color-text);
+}
+
+/* Cyberpunk glitch letter — individual letter glitch (see Layout.astro) */
+.glitch-letter {
+  display: inline-block;
+  position: relative;
+  color: var(--color-text);
+}
+
+/* Cyberpunk glitch square — animated via JS (see Layout.astro) */
+.glitch-square {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-accent);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Smooth blinking cursor — VS Code style */
+.cursor-smooth {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background-color: var(--color-accent);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: cursor-fade 1s ease-in-out infinite;
+}
+
+@keyframes cursor-fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* On section hover — main square transitions to secondary color */
+section:hover .glitch-square {
+  animation: sq-to-secondary 0.5s step-end forwards;
+}
+section:not(:hover) .glitch-square {
+  animation: sq-to-accent 0.35s step-end forwards;
+}
+
+@keyframes sq-to-secondary {
+  0%   { background-color: var(--color-accent); transform: translate(0, 0); }
+  10%  { background-color: var(--color-accent); transform: translate(-2px, 1px); }
+  20%  { background-color: var(--color-accent-secondary); transform: translate(1px, -1px); opacity: 0.5; }
+  30%  { background-color: var(--color-accent); transform: translate(-1px, 0); opacity: 0.8; }
+  40%  { background-color: var(--color-accent-secondary); transform: translate(0, 0); opacity: 1; }
+  100% { background-color: var(--color-accent-secondary); transform: translate(0, 0); opacity: 1; }
+}
+
+@keyframes sq-to-accent {
+  0%   { background-color: var(--color-accent-secondary); transform: translate(0, 0); }
+  15%  { background-color: var(--color-accent-secondary); transform: translate(1px, -1px); }
+  30%  { background-color: var(--color-accent); transform: translate(-1px, 1px); opacity: 0.6; }
+  45%  { background-color: var(--color-accent); transform: translate(0, 0); opacity: 1; }
+  100% { background-color: var(--color-accent); transform: translate(0, 0); opacity: 1; }
+}
+
+/* Glitch icon — SVG icons with same glitch behavior as squares */
+.glitch-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  color: var(--color-accent);
+  position: relative;
+  flex-shrink: 0;
+  transform-origin: center;
+}
+.glitch-icon > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Hover: icon glitches from accent → secondary (cyan) */
+.glitch-icon:hover,
+a:hover .glitch-icon {
+  animation: icon-to-secondary 0.5s step-end forwards;
+}
+
+/* Leave: back to accent */
+.glitch-icon:not(:hover) {
+  animation: icon-to-accent 0.35s step-end forwards;
+}
+
+@keyframes icon-to-secondary {
+  0%   { color: var(--color-accent); transform: translate(0, 0); filter: none; }
+  10%  { color: var(--color-accent); transform: translate(-2px, 1px); filter: drop-shadow(3px -2px 0 var(--color-accent-secondary)); }
+  20%  { color: var(--color-accent-secondary); transform: translate(1px, -1px); opacity: 0.5; filter: drop-shadow(-2px 2px 0 var(--color-accent)); }
+  30%  { color: var(--color-accent); transform: translate(-1px, 0); opacity: 0.8; filter: drop-shadow(2px -1px 0 var(--color-accent-secondary)); }
+  40%  { color: var(--color-accent-secondary); transform: translate(0, 0); opacity: 1; filter: none; }
+  100% { color: var(--color-accent-secondary); transform: translate(0, 0); opacity: 1; filter: none; }
+}
+
+@keyframes icon-to-accent {
+  0%   { color: var(--color-accent-secondary); transform: translate(0, 0); }
+  15%  { color: var(--color-accent-secondary); transform: translate(1px, -1px); filter: drop-shadow(-2px 2px 0 var(--color-accent)); }
+  30%  { color: var(--color-accent); transform: translate(-1px, 1px); opacity: 0.6; filter: none; }
+  45%  { color: var(--color-accent); transform: translate(0, 0); opacity: 1; }
+  100% { color: var(--color-accent); transform: translate(0, 0); opacity: 1; filter: none; }
+}
+
+
+/* Terminal typing animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: "█";
+  animation: blink 1s step-end infinite;
+  color: var(--color-accent);
+}
+
+/* Terminal line connector */
+.terminal-line {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.terminal-line::before {
+  content: "│";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  color: var(--color-border);
+  font-family: var(--font-mono);
+}
+
+/* Fade in animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
+
+/* Stagger children */
+.stagger > * {
+  animation: fade-up 0.5s ease-out both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* Blog prose styling */
+.prose {
+  max-width: 65ch;
+  line-height: 1.75;
+}
+.prose h1, .prose h2, .prose h3 {
+  color: var(--color-text);
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+.prose h1 { font-size: 1.5rem; }
+.prose h2 { font-size: 1.25rem; }
+.prose h3 { font-size: 1.1rem; }
+.prose p {
+  margin-bottom: 1em;
+  color: var(--color-text-muted);
+}
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose a:hover {
+  color: var(--color-text);
+}
+.prose code {
+  background: var(--color-surface-2);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.prose pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1em;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+.prose ul, .prose ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+  color: var(--color-text-muted);
+}
+.prose li {
+  margin-bottom: 0.25em;
+}
+.prose blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1em;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: 1em;
+}

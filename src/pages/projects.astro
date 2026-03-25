@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title="Projects · Frederico Santos">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="/" class="text-accent text-sm font-bold tracking-tight">
+        frederico<span class="text-text-dim">@</span>fsx.app
+      </a>
+      <a href="/" class="text-text-muted hover:text-accent text-xs transition-colors">← back</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+    <SectionHeader title="Projects" />
+    <div class="grid gap-3">
+      {projects.map((p) => <ProjectCard {...p.data} />)}
+    </div>
+  </main>
+</Layout>
