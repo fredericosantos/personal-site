@@ -3,15 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import { getCollection } from "astro:content";
 
-const skills = await getCollection("skills");
-
-const grouped = skills.reduce((acc, s) => {
-  const cat = s.data.category;
-  if (!acc[cat]) acc[cat] = [];
-  acc[cat].push(s);
-  return acc;
-}, {} as Record<string, typeof skills>);
-
 const publications = (await getCollection("publications")).sort((a, b) => b.data.year - a.data.year);
 ---
 
@@ -36,7 +27,7 @@ const publications = (await getCollection("publications")).sort((a, b) => b.data
     <!-- Summary -->
     <section class="mt-8 pl-6 border-l border-border text-text-muted leading-relaxed">
       <p>
-        <span class="text-text">Frederico J.J.B. Santos</span> — PhD candidate at the University of Trieste, using methods from evolutionary computation to design a GPU-native PyTorch framework for neuroevolution. Now in his second year, with five peer-reviewed publications including a Q1 journal article and papers at CORE A conferences.
+        <span class="text-text">Frederico J.J.B. Santos</span> — PhD candidate at the University of Trieste, using methods from evolutionary computation to design a GPU-native PyTorch framework for neuroevolution. Five peer-reviewed publications, including a Q1 journal article in <em>Applied Soft Computing</em> and papers at CORE A conferences (GECCO, EuroGP, EvoApplications).
       </p>
       <p class="text-text-dim text-xs mt-3 font-mono">
         Trieste, Italy · <a class="underline underline-offset-2 hover:text-accent" href="mailto:fredericojose.jacomedebritosantos@phd.units.it">fredericojose.jacomedebritosantos@phd.units.it</a> · ORCID <a class="underline underline-offset-2 hover:text-accent" href="https://orcid.org/0000-0003-3589-7877" target="_blank" rel="noopener">0000-0003-3589-7877</a>
@@ -142,34 +133,13 @@ const publications = (await getCollection("publications")).sort((a, b) => b.data
         </ol>
       </section>
 
-      <!-- Skills -->
-      <section>
-        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Skills</p>
-        <div class="space-y-4">
-          {Object.entries(grouped).map(([category, categorySkills]) => (
-            <div>
-              <p class="text-text-dim text-xs font-mono uppercase mb-2">{category}/</p>
-              <div class="flex flex-wrap gap-2 pl-4">
-                {categorySkills.map((skill) => (
-                  <span class="text-xs px-2 py-1 rounded border border-border text-text-muted bg-surface/40">
-                    {skill.data.title}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <!-- Awards & Service -->
       <section>
         <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Awards &amp; Service</p>
         <ul class="font-mono text-sm text-text-muted space-y-2">
           <li><span class="text-border">├──</span> EvoApplications 2026 — <span class="text-accent-secondary">Best Poster Runner-Up</span> (co-author)</li>
           <li><span class="text-border">├──</span> SPECIES Summer School on Evolutionary Computation, Moraira, Spain · 2025</li>
-          <li><span class="text-border">├──</span> Conference Volunteer · EvoStar 2025 &amp; Ital-IA 2025, Trieste</li>
-          <li><span class="text-border">├──</span> Meta-sponsored Udacity Nanodegree, Deep Reinforcement Learning · 2019</li>
-          <li><span class="text-border">└──</span> Meta-sponsored Udacity Nanodegree, Deep Learning · 2018</li>
+          <li><span class="text-border">└──</span> Conference Volunteer · EvoStar 2025 &amp; Ital-IA 2025, Trieste</li>
         </ul>
       </section>
 

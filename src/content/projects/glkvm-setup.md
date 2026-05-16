@@ -4,5 +4,5 @@ description: Wake-on-LAN gateway for the GL.iNet GLKVM. Wake home servers from a
 language: Python
 tags: [networking, homelab, wol, tls]
 url: "https://github.com/fredericosantos/glkvm-setup"
-order: 9
+order: 7
 ---

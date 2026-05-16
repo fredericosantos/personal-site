@@ -4,7 +4,6 @@ import { getCollection } from "astro:content";
 import SectionHeader from "../components/SectionHeader.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import PublicationCard from "../components/PublicationCard.astro";
-import SkillTree from "../components/SkillTree.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import SectionConnector from "../components/SectionConnector.astro";
 
@@ -17,8 +16,6 @@ const projects = (await getCollection("projects"))
 
 const publications = (await getCollection("publications"))
   .sort((a, b) => b.data.year - a.data.year);
-
-const skills = await getCollection("skills");
 ---
 
 <Layout>
@@ -31,7 +28,7 @@ const skills = await getCollection("skills");
           frederico<span class="text-text-dim">@</span>fsx.app
         </a>
         <div class="flex items-center gap-1 text-xs">
-          {["about", "projects", "publications", "blog", "stack"].map((s) => (
+          {["about", "projects", "publications", "blog"].map((s) => (
             <a
               href={`#${s}`}
               class="text-text-muted hover:text-accent transition-colors px-2 py-1 rounded hover:bg-surface"
@@ -86,7 +83,7 @@ const skills = await getCollection("skills");
               PhD Candidate, Applied Data Science &amp; AI · <span class="text-text">University of Trieste</span>
             </p>
             <p class="text-text-muted">
-              Evolutionary Computation · Neuroevolution · Genetic Programming · GPU PyTorch
+              Evolutionary Computation · Neuroevolution · Genetic Programming
             </p>
           </div>
 
@@ -116,10 +113,10 @@ const skills = await getCollection("skills");
           using evolutionary computation to design a GPU-native PyTorch framework for neuroevolution.
         </p>
         <p>
-          <span class="text-border">├──</span> Five peer-reviewed publications so far — including a Q1 article in <em>Applied Soft Computing</em> and papers at GECCO, EuroGP and EvoApplications. I evolve neural network topologies through composable blocks and evolve PSO velocity rules with GP.
+          <span class="text-border">├──</span> Five peer-reviewed publications, including a Q1 article in <em>Applied Soft Computing</em> and papers at GECCO, EuroGP and EvoApplications.
         </p>
         <p>
-          <span class="text-border">└──</span> Before the PhD: MSc in Data Science (NOVA IMS, 18/20) and a BSc in Management (Católica Lisbon). That mix shapes how I work — research-grade rigour, product-grade tooling. Read more on <a href="/about" class="text-accent hover:text-text transition-colors underline underline-offset-2">about</a> or grab the <a href="/frederico-santos-cv.pdf" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">CV (PDF)</a>.
+          <span class="text-border">└──</span> Before the PhD: MSc in Data Science (NOVA IMS, 18/20) and a BSc in Management (Católica Lisbon). More on <a href="/about" class="text-accent hover:text-text transition-colors underline underline-offset-2">about</a>, or download the <a href="/frederico-santos-cv.pdf" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">CV (PDF)</a>.
         </p>
       </div>
     </section>
@@ -200,16 +197,6 @@ const skills = await getCollection("skills");
           </a>
         ))}
       </div>
-    </section>
-
-    <SectionConnector />
-
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- SKILLS                                      -->
-    <!-- ═══════════════════════════════════════════ -->
-    <section id="skills" class="mb-16 scroll-mt-16">
-      <SectionHeader title="Stack" />
-      <SkillTree skills={skills} />
     </section>
 
     <!-- ═══════════════════════════════════════════ -->

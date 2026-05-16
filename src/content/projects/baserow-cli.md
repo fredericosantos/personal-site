@@ -4,5 +4,5 @@ description: CLI and typed Python client for the Baserow API — auto-generated 
 language: Python
 tags: [cli, python, openapi, baserow]
 url: "https://github.com/fredericosantos/baserow-cli"
-order: 7
+order: 5
 ---

@@ -4,5 +4,5 @@ description: Interactive TensorBoard-style supply chain visualization for the me
 language: TypeScript
 tags: [visualization, react-flow, deck-gl, dataviz]
 url: "https://github.com/fredericosantos/memory-supply-chain"
-order: 5
+order: 3
 ---
