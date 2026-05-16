@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
 
 interface Props {
   title?: string;
@@ -24,19 +26,11 @@ const {
     <meta property="og:description" content={description} />
     <title>{title}</title>
 
-    <!-- Umami Analytics -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="0cbb3d09-4a24-4784-9e7e-d7aecf136c3a"></script>
+    <!-- Umami Analytics (production only) -->
+    {import.meta.env.PROD && (
+      <script defer src="https://cloud.umami.is/script.js" data-website-id="0cbb3d09-4a24-4784-9e7e-d7aecf136c3a"></script>
+    )}
 
-    <!-- Geist Fonts -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/geist@1.4.1/dist/fonts/geist-sans/style.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/geist@1.4.1/dist/fonts/geist-mono/style.css"
-    />
   </head>
   <body
     class="bg-bg text-text font-mono antialiased min-h-screen relative overflow-x-hidden"
