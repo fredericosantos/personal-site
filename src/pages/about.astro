@@ -1,23 +1,65 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
-import { getCollection } from "astro:content";
 ---
 
 <Layout title="About · Frederico Santos">
-  <main class="max-w-4xl mx-auto px-6 pt-20 pb-16">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="/" class="text-accent text-sm font-bold tracking-tight">
+        frederico<span class="text-text-dim">@</span>fsx.app
+      </a>
+      <a href="/" class="text-text-muted hover:text-accent text-xs transition-colors">← back</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
     <SectionHeader title="About" />
 
-    <div class="space-y-4 mt-8">
-      <p class="text-text-muted leading-relaxed">
-        I'm a second-year PhD student at the University of Trieste, working on evolutionary computation and genetic programming.
+    <div class="pl-6 border-l border-border space-y-5 mt-8 text-text-muted leading-relaxed">
+      <p>
+        <span class="text-border">├──</span> I'm a second-year PhD candidate in <span class="text-text">Applied Data Science &amp; Artificial Intelligence</span> at the
+        <a href="https://www.units.it/" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">University of Trieste</a>.
       </p>
-      <p class="text-text-muted leading-relaxed">
-        My research focuses on Geometric Semantic Genetic Programming (GSGP) and its applications to symbolic regression and machine learning.
+      <p>
+        <span class="text-border">├──</span> My research uses methods from evolutionary computation to design a
+        <span class="text-text">GPU-native PyTorch framework for neuroevolution</span> — evolving neural network topologies through composable blocks at micro- and macro-structural scales.
       </p>
-      <p class="text-text-muted leading-relaxed">
-        Previously, I worked as a software engineer building web applications and automation tools.
+      <p>
+        <span class="text-border">├──</span> Alongside that, I evolve Particle Swarm Optimization velocity rules via Genetic Programming, building toward population-based optimizers for neuroevolution.
       </p>
+      <p>
+        <span class="text-border">├──</span> So far, five peer-reviewed publications — including a Q1 journal article in
+        <em>Applied Soft Computing</em> and papers at CORE A conferences (GECCO, EuroGP, EvoApplications).
+      </p>
+      <p>
+        <span class="text-border">├──</span> Before the PhD I trained in
+        <span class="text-text">Data Science &amp; Advanced Analytics</span> at NOVA IMS Lisbon
+        (GPA 18/20, thesis adapted for publication) and in
+        <span class="text-text">Management &amp; Business Administration</span> at Católica Lisbon — so I bring an engineering and product mindset to the research work.
+      </p>
+      <p>
+        <span class="text-border">└──</span> Outside the lab I'm based in Trieste, Italy. I speak <span class="text-text">Portuguese</span> (native), <span class="text-text">English</span> (fluent) and <span class="text-text">Italian</span> (A1, getting there).
+      </p>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 gap-3 text-sm font-mono">
+      <a href="/cv" class="border border-border rounded-lg p-4 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all">
+        <span class="text-accent">cv/</span>
+        <p class="text-text-muted text-sm mt-1">Full education, experience and awards.</p>
+      </a>
+      <a href="/frederico-santos-cv.pdf" target="_blank" rel="noopener" class="border border-border rounded-lg p-4 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all">
+        <span class="text-accent">cv.pdf ↓</span>
+        <p class="text-text-muted text-sm mt-1">Download the single-page PDF.</p>
+      </a>
+      <a href="/publications" class="border border-border rounded-lg p-4 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all">
+        <span class="text-accent">publications/</span>
+        <p class="text-text-muted text-sm mt-1">5 peer-reviewed papers, 2023–2026.</p>
+      </a>
+      <a href="https://orcid.org/0000-0003-3589-7877" target="_blank" rel="noopener" class="border border-border rounded-lg p-4 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all">
+        <span class="text-accent">orcid →</span>
+        <p class="text-text-muted text-sm mt-1">0000-0003-3589-7877</p>
+      </a>
     </div>
   </main>
 </Layout>

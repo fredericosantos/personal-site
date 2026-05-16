@@ -11,13 +11,39 @@ const grouped = skills.reduce((acc, s) => {
   acc[cat].push(s);
   return acc;
 }, {} as Record<string, typeof skills>);
+
+const publications = (await getCollection("publications")).sort((a, b) => b.data.year - a.data.year);
 ---
 
 <Layout title="CV · Frederico Santos">
-  <main class="max-w-4xl mx-auto px-6 pt-20 pb-16">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="/" class="text-accent text-sm font-bold tracking-tight">
+        frederico<span class="text-text-dim">@</span>fsx.app
+      </a>
+      <div class="flex items-center gap-3 text-xs">
+        <a href="/frederico-santos-cv.pdf" target="_blank" rel="noopener" class="px-3 py-1 rounded border border-accent text-accent hover:bg-accent hover:text-bg transition-all">
+          Download PDF ↓
+        </a>
+        <a href="/" class="text-text-muted hover:text-accent transition-colors">← back</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
     <SectionHeader title="CV" />
 
-    <div class="pl-6 border-l border-border space-y-6 mt-8">
+    <!-- Summary -->
+    <section class="mt-8 pl-6 border-l border-border text-text-muted leading-relaxed">
+      <p>
+        <span class="text-text">Frederico J.J.B. Santos</span> — PhD candidate at the University of Trieste, using methods from evolutionary computation to design a GPU-native PyTorch framework for neuroevolution. Now in his second year, with five peer-reviewed publications including a Q1 journal article and papers at CORE A conferences.
+      </p>
+      <p class="text-text-dim text-xs mt-3 font-mono">
+        Trieste, Italy · <a class="underline underline-offset-2 hover:text-accent" href="mailto:fredericojose.jacomedebritosantos@phd.units.it">fredericojose.jacomedebritosantos@phd.units.it</a> · ORCID <a class="underline underline-offset-2 hover:text-accent" href="https://orcid.org/0000-0003-3589-7877" target="_blank" rel="noopener">0000-0003-3589-7877</a>
+      </p>
+    </section>
+
+    <div class="pl-6 border-l border-border space-y-8 mt-10">
 
       <!-- Education -->
       <section>
@@ -28,12 +54,26 @@ const grouped = skills.reduce((acc, s) => {
               <span class="text-border">├──</span>
               <div>
                 <span class="text-accent-secondary">2024─now</span>
-                <span class="text-text ml-2 font-sans font-medium">PhD in Computer Science</span>
+                <span class="text-text ml-2 font-sans font-medium">PhD in Applied Data Science &amp; Artificial Intelligence</span>
               </div>
             </div>
             <div class="ml-8 text-text-muted text-sm font-sans">
               <p>University of Trieste, Italy</p>
-              <p class="text-text-dim text-xs mt-0.5">Evolutionary Computation · Genetic Programming · ML</p>
+              <p class="text-text-dim text-xs mt-0.5">GPU-native PyTorch framework for neuroevolution · GP-evolved PSO velocity rules</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex gap-3">
+              <span class="text-border">├──</span>
+              <div>
+                <span class="text-accent-secondary">2020─2023</span>
+                <span class="text-text ml-2 font-sans font-medium">MSc in Data Science &amp; Advanced Analytics</span>
+              </div>
+            </div>
+            <div class="ml-8 text-text-muted text-sm font-sans">
+              <p>NOVA Information Management School, Portugal</p>
+              <p class="text-text-dim text-xs mt-0.5">GPA 18/20 · thesis adapted for publication in <em>Applied Soft Computing</em></p>
             </div>
           </div>
 
@@ -41,13 +81,12 @@ const grouped = skills.reduce((acc, s) => {
             <div class="flex gap-3">
               <span class="text-border">└──</span>
               <div>
-                <span class="text-accent-secondary">2020─2023</span>
-                <span class="text-text ml-2 font-sans font-medium">MSc in Informatics Engineering</span>
+                <span class="text-accent-secondary">earlier</span>
+                <span class="text-text ml-2 font-sans font-medium">BSc in Management &amp; Business Administration</span>
               </div>
             </div>
             <div class="ml-8 text-text-muted text-sm font-sans">
-              <p>University of Coimbra, Portugal</p>
-              <p class="text-text-dim text-xs mt-0.5">Machine Learning · Software Engineering</p>
+              <p>Católica Lisbon School of Business &amp; Economics, Portugal</p>
             </div>
           </div>
         </div>
@@ -61,13 +100,13 @@ const grouped = skills.reduce((acc, s) => {
             <div class="flex gap-3">
               <span class="text-border">├──</span>
               <div>
-                <span class="text-accent-secondary">2024─now</span>
-                <span class="text-text ml-2 font-sans font-medium">PhD Researcher</span>
+                <span class="text-accent-secondary">2025─now</span>
+                <span class="text-text ml-2 font-sans font-medium">Research &amp; Data Mining</span>
               </div>
             </div>
             <div class="ml-8 text-text-muted text-sm font-sans">
-              <p>University of Trieste</p>
-              <p class="text-text-dim text-xs mt-0.5">Research on GSGP, symbolic regression, and evolutionary ML</p>
+              <p>RADAR-AIM, Erasmus+ Cooperation Partnership</p>
+              <p class="text-text-dim text-xs mt-0.5">Lead WP2 of an EU programme on AI for sustainability — scraped &amp; curated 300+ courses, designed AI-integration pipeline</p>
             </div>
           </div>
 
@@ -75,16 +114,32 @@ const grouped = skills.reduce((acc, s) => {
             <div class="flex gap-3">
               <span class="text-border">└──</span>
               <div>
-                <span class="text-accent-secondary">2022─2024</span>
-                <span class="text-text ml-2 font-sans font-medium">Software Engineer</span>
+                <span class="text-accent-secondary">2024─now</span>
+                <span class="text-text ml-2 font-sans font-medium">PhD Researcher</span>
               </div>
             </div>
             <div class="ml-8 text-text-muted text-sm font-sans">
-              <p>Various projects</p>
-              <p class="text-text-dim text-xs mt-0.5">Web applications, automation tools, data pipelines</p>
+              <p>University of Trieste — Evolutionary Computation Lab</p>
+              <p class="text-text-dim text-xs mt-0.5">Reduced an internal engineering loop from ~20 min to under one</p>
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Publications -->
+      <section>
+        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Publications</p>
+        <ol class="space-y-3 list-none">
+          {publications.map((pub) => (
+            <li class="font-mono text-sm">
+              <a href={pub.data.url} target="_blank" rel="noopener" class="block border border-border rounded p-3 bg-surface/40 hover:bg-surface/80 hover:border-accent/30 transition-all">
+                <span class="text-text font-medium font-sans">{pub.data.title}</span>
+                <span class="block text-text-muted text-xs mt-1 font-sans">{pub.data.authors}</span>
+                <span class="block text-accent-secondary text-xs mt-1">{pub.data.venue} · {pub.data.year}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <!-- Skills -->
@@ -104,6 +159,28 @@ const grouped = skills.reduce((acc, s) => {
             </div>
           ))}
         </div>
+      </section>
+
+      <!-- Awards & Service -->
+      <section>
+        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Awards &amp; Service</p>
+        <ul class="font-mono text-sm text-text-muted space-y-2">
+          <li><span class="text-border">├──</span> EvoApplications 2026 — <span class="text-accent-secondary">Best Poster Runner-Up</span> (co-author)</li>
+          <li><span class="text-border">├──</span> SPECIES Summer School on Evolutionary Computation, Moraira, Spain · 2025</li>
+          <li><span class="text-border">├──</span> Conference Volunteer · EvoStar 2025 &amp; Ital-IA 2025, Trieste</li>
+          <li><span class="text-border">├──</span> Meta-sponsored Udacity Nanodegree, Deep Reinforcement Learning · 2019</li>
+          <li><span class="text-border">└──</span> Meta-sponsored Udacity Nanodegree, Deep Learning · 2018</li>
+        </ul>
+      </section>
+
+      <!-- Languages -->
+      <section>
+        <p class="text-accent-secondary text-xs uppercase tracking-widest mb-3">Languages</p>
+        <ul class="font-mono text-sm text-text-muted space-y-1">
+          <li><span class="text-border">├──</span> <span class="text-text">Portuguese</span> — native</li>
+          <li><span class="text-border">├──</span> <span class="text-text">English</span> — fluent</li>
+          <li><span class="text-border">└──</span> <span class="text-text">Italian</span> — A1</li>
+        </ul>
       </section>
 
     </div>
