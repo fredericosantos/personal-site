@@ -78,7 +78,7 @@ const publications = (await getCollection("publications"))
           <!-- role -->
           <div>
             <p class="text-text-muted mt-1">
-              PhD Candidate, Applied Data Science &amp; AI · <span class="text-text">University of Trieste</span>
+              PhD Candidate, Artificial Intelligence · <span class="text-text">University of Trieste</span>
             </p>
             <p class="text-text-muted">
               Evolutionary Computation · Neuroevolution · Genetic Programming
@@ -106,15 +106,14 @@ const publications = (await getCollection("publications"))
       <SectionHeader title="About" />
       <div class="pl-6 border-l border-border space-y-4 text-text-muted leading-relaxed">
         <p>
-          <span class="text-border">├──</span> Second-year PhD candidate in Applied Data Science &amp; AI at the
-          <a href="https://www.units.it/" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">University of Trieste</a>,
-          using evolutionary computation to design a GPU-native PyTorch framework for neuroevolution.
+          <span class="text-border">├──</span> Second-year PhD candidate in Artificial Intelligence at the
+          <a href="https://www.units.it/" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">University of Trieste</a>.
         </p>
         <p>
-          <span class="text-border">├──</span> Five peer-reviewed publications, including a Q1 article in <em>Applied Soft Computing</em> and papers at GECCO, EuroGP and EvoApplications.
+          <span class="text-border">├──</span> Currently building a genetic programming framework on PyTorch, with the goal of making neuroevolution practical at various architecture scales.
         </p>
         <p>
-          <span class="text-border">└──</span> Before the PhD: MSc in Data Science (NOVA IMS, 18/20) and a BSc in Management (Católica Lisbon). More on <a href="/about" class="text-accent hover:text-text transition-colors underline underline-offset-2">about</a>, or download the <a href="/frederico-santos-cv.pdf" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">CV (PDF)</a>.
+          <span class="text-border">└──</span> Five peer-reviewed publications, including a Q1 article in <em>Applied Soft Computing</em> and papers at GECCO, EuroGP and EvoApplications.
         </p>
       </div>
     </section>
@@ -128,7 +127,7 @@ const publications = (await getCollection("publications"))
       <SectionHeader title="Projects" />
       <div class="grid gap-3 stagger">
         {projects.map((project) => (
-          <ProjectCard {...project.data} />
+          <ProjectCard slug={project.id} {...project.data} />
         ))}
       </div>
     </section>
