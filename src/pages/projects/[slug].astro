@@ -1,0 +1,68 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((p) => ({
+    params: { slug: p.id },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, language, tags, url, private: isPrivate } = project.data;
+
+const sketches = import.meta.glob<string>("/src/sketches/*.svg", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+const sketch = sketches[`/src/sketches/${project.id}.svg`] ?? null;
+---
+
+<Layout title={`${title} · Frederico Santos`} description={description}>
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="/" aria-label="Home" class="text-accent hover:text-text transition-colors inline-flex items-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+      <a href="/projects" class="text-text-muted hover:text-accent text-xs transition-colors">← projects</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+    <SectionHeader title={title} />
+
+    <div class="mt-2 mb-8 flex items-center gap-3 flex-wrap font-mono text-xs">
+      <span class="px-1.5 py-0.5 rounded bg-surface-2 text-accent-secondary">{language}</span>
+      {tags.map((tag) => <span class="text-text-dim">#{tag}</span>)}
+      {isPrivate && (
+        <span class="ml-auto text-text-dim border border-border rounded px-2 py-0.5 uppercase tracking-widest text-[10px]">private repo</span>
+      )}
+    </div>
+
+    {sketch && (
+      <figure class="my-6 flex justify-center">
+        <div class="text-accent w-56 h-56" set:html={sketch}></div>
+      </figure>
+    )}
+
+    <p class="text-text-muted leading-relaxed mb-8 italic">{description}</p>
+
+    <article class="prose prose-invert max-w-none text-text-muted leading-relaxed prose-headings:text-text prose-headings:font-mono prose-a:text-accent prose-a:no-underline hover:prose-a:text-text prose-strong:text-text prose-code:text-accent-secondary prose-code:before:content-none prose-code:after:content-none prose-li:my-1 prose-li:marker:text-border">
+      <Content />
+    </article>
+
+    {!isPrivate && url && (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener"
+        class="mt-10 inline-flex items-center gap-2 px-4 py-2 rounded border border-accent text-accent hover:bg-accent hover:text-bg transition-all"
+      >
+        View on GitHub →
+      </a>
+    )}
+  </main>
+</Layout>

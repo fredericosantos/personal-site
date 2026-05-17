@@ -18,7 +18,8 @@ const projects = defineCollection({
     description: z.string(),
     language: z.string(),
     tags: z.array(z.string()),
-    url: z.string(),
+    url: z.string().optional(),
+    private: z.boolean().default(false),
     order: z.number(),
   }),
 });

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <circle cx="60" cy="180" r="22"/>
+  <circle cx="190" cy="180" r="18"/>
+  <circle cx="125" cy="60" r="28"/>
+  <line x1="76" y1="166" x2="108" y2="84"/>
+  <polyline points="103,92 113,83 105,103"/>
+  <line x1="174" y1="166" x2="142" y2="84"/>
+  <polyline points="148,90 138,82 158,86"/>
+  <line x1="82" y1="186" x2="170" y2="186"/>
+  <polyline points="162,180 173,186 162,193"/>
+  <!-- Orbit ring -->
+  <ellipse cx="125" cy="60" rx="40" ry="14"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Status bar -->
+  <rect x="15" y="100" width="210" height="40" rx="6"/>
+  <line x1="75" y1="100" x2="75" y2="140"/>
+  <line x1="140" y1="100" x2="140" y2="140"/>
+  <!-- Glyphs (geometric, not text) -->
+  <text x="32" y="127" font-family="monospace" font-size="18" font-weight="700" stroke="none" fill="currentColor">$</text>
+  <polyline points="92,114 108,120 92,126"/>
+  <line x1="92" y1="120" x2="125" y2="120"/>
+  <polyline points="158,112 178,120 158,128 158,112"/>
+  <!-- Cursor -->
+  <line x1="200" y1="110" x2="200" y2="130"/>
+  <line x1="195" y1="120" x2="218" y2="120"/>
+</svg>

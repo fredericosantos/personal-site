@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Swarm of particles -->
+  <circle cx="50" cy="170" r="6"/>
+  <circle cx="72" cy="190" r="6"/>
+  <circle cx="42" cy="195" r="6"/>
+  <circle cx="78" cy="160" r="6"/>
+  <circle cx="60" cy="210" r="6"/>
+  <!-- Trajectories toward target -->
+  <line x1="56" y1="172" x2="148" y2="92"/>
+  <line x1="78" y1="190" x2="152" y2="98"/>
+  <line x1="62" y1="208" x2="146" y2="100"/>
+  <!-- Target -->
+  <circle cx="170" cy="80" r="22"/>
+  <circle cx="170" cy="80" r="11"/>
+  <circle cx="170" cy="80" r="3" fill="currentColor"/>
+  <!-- Tiny GP tree in corner -->
+  <line x1="32" y1="60" x2="32" y2="38"/>
+  <line x1="32" y1="38" x2="18" y2="22"/>
+  <line x1="32" y1="38" x2="46" y2="22"/>
+</svg>

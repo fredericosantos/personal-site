@@ -18,7 +18,7 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
   <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
     <SectionHeader title="Projects" />
     <div class="grid gap-3">
-      {projects.map((p) => <ProjectCard {...p.data} />)}
+      {projects.map((p) => <ProjectCard slug={p.id} {...p.data} />)}
     </div>
   </main>
 </Layout>
