@@ -4,3 +4,4 @@ dist
 .astro
 *.png
 .playwright-mcp
+.vscode/
