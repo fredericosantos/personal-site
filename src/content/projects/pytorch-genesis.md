@@ -13,4 +13,4 @@ That's what pytorch-genesis does. Each candidate is a PyTorch Lightning model. T
 
 Codebase behind the 2023 *Applied Soft Computing* paper on **box mutation** — a way of mutating networks block-by-block rather than weight-by-weight, which keeps each candidate trainable for the gradient phase. The paper was the first Q1 journal publication of the PhD ([DOI](https://doi.org/10.1016/j.asoc.2023.110767)).
 
-The framework hasn't been actively developed since 2023, but the ideas — block-level mutation, two-time-scale training, modular architecture search — carry directly into [fsgp](/projects/fsgp), which runs them orders of magnitude faster on a GPU. Kept here for historical reference and as the paper artifact.
+The framework hasn't been actively developed since 2023, but the ideas — block-level mutation, two-time-scale training, modular architecture search — carry directly into my current GPU-native framework, which runs them orders of magnitude faster on a GPU. Kept here for historical reference and as the paper artifact.
