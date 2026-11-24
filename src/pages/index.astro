@@ -67,7 +67,7 @@ const publications = (await getCollection("publications"))
             <p class="text-text-dim">
               <span class="text-accent">$</span> whoami
             </p>
-            <p class="name-glitch-container text-text font-mono mt-1 flex flex-wrap items-center" style="font-size: 56px; font-weight: 250; line-height: 1.1;">
+            <p class="name-glitch-container text-text font-mono mt-1 flex flex-wrap items-center" style="font-size: clamp(24px, 7vw, 56px); font-weight: 250; line-height: 1.1;">
               {"FREDERICO".split("").map((c) => <span class="glitch-letter">{c}</span>)}
               <span class="glitch-letter">&nbsp;</span>
               {"SANTOS".split("").map((c) => <span class="glitch-letter">{c}</span>)}
