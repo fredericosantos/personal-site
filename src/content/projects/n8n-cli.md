@@ -13,4 +13,4 @@ Same architectural choice as [baserow-cli](/projects/baserow-cli): rather than h
 
 The trade-off is the same in both directions. The CLI inherits whatever shape n8n's API has — sometimes that's verbose where I'd have been terser — but maintenance is essentially free, and the surface area is always exactly what the platform supports.
 
-Lives in the same family as [baserow-cli](/projects/baserow-cli), and exists for the same reason: programmatic access to a self-hosted n8n instance inside [homelab-infra](/projects/homelab-infra). Requires Python 3.13+.
+Lives in the same family as [baserow-cli](/projects/baserow-cli), and exists for the same reason: programmatic access to a self-hosted n8n instance in my homelab. Requires Python 3.13+.

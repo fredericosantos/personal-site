@@ -13,4 +13,4 @@ Two ways to wrap an API in a CLI. You can hand-write the client in Python, which
 
 I went with generated. The trade-off is that the CLI's shape is determined by Baserow's API design rather than what I'd have built by hand; the upside is that maintenance is `regenerate, ship`. Same architectural choice in [n8n-cli](/projects/n8n-cli).
 
-Built because the Baserow instance running in [homelab-infra](/projects/homelab-infra) needed programmatic access for migrations between dev and prod, and writing yet another bespoke HTTP wrapper for each new tool gets old.
+Built because the Baserow instance running in my homelab needed programmatic access for migrations between dev and prod, and writing yet another bespoke HTTP wrapper for each new tool gets old.
