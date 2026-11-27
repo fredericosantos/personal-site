@@ -1,0 +1,42 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+---
+
+<Layout title="Privacy · FSX REMOTE CONTROL" description="Privacy policy for FSX REMOTE CONTROL, a personal-use Google API client.">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between">
+      <a href="/" aria-label="Home" class="text-accent hover:text-text transition-colors inline-flex items-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+      <a href="/" class="text-text-muted hover:text-accent text-xs transition-colors">← back</a>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+    <SectionHeader title="Privacy" />
+
+    <div class="pl-6 border-l border-border space-y-5 mt-8 text-text-muted leading-relaxed">
+      <p>
+        <span class="text-text">FSX REMOTE CONTROL</span> is a personal-use Google OAuth client.
+        Frederico Santos uses it only to reach his own Google accounts (Drive, Docs, Sheets, Slides, Gmail, Calendar, Tasks,
+        Contacts, Forms, Apps Script, Photos, YouTube) from command-line tools on his own computers.
+      </p>
+      <p>
+        It is not offered to the public. It has no server: Google data goes directly from Google to the
+        owner's machines and is not sent to, stored by, or shared with anyone else.
+      </p>
+      <p>
+        Access tokens are stored only in local configuration files on those machines. Access can be revoked at any time at
+        <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">myaccount.google.com/permissions</a>.
+      </p>
+      <p>
+        Use of information received from Google APIs adheres to the
+        <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener" class="text-accent hover:text-text transition-colors underline underline-offset-2">Google API Services User Data Policy</a>,
+        including the Limited Use requirements. Google data is not used for advertising, not sold, and not used to train AI models.
+      </p>
+      <p>
+        Contact:
+        <a href="mailto:frederico.santos.webpage@fsx.app" class="text-accent hover:text-text transition-colors underline underline-offset-2">frederico.santos.webpage@fsx.app</a>
+      </p>
+    </div>
+  </main>
+</Layout>
